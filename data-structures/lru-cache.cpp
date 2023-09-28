@@ -1,17 +1,7 @@
 /**
  * Farham Ahmad
  * Data Structure: Least Recently Used Cache with constant time {add, find} operations.
-*/
-
-#include <stdint.h>
-#include <unordered_map>
-
-
-#define MAX_CACHE_CAPACITY 100
-#define MEMORY_ADDRESS uint64_t
-
-
-/**
+ * 
  * The primary data structure used to maintain the cache is a queue implemented as a doubly-linked list.
  * The doubly-linked list with pointers to the head and tail allow us to pop the least recently used element
  * from the tail of the queue, and add the most recently used element from the head of the queue in constant
@@ -28,13 +18,23 @@
  * For the purpose of implementation, we simply invalidate the cache.
  * 
  * Note: M2 uses 64-bit architecture, so pointers will be 64 bits
+ * Note: The members of a struct must be stored in descending order to make the address space as compact as possible.
+ * Note: The class template optional requires c++17
 */
+
+#include <stdint.h>
+#include <unordered_map>
+#include <optional>
+
+
+#define MAX_CACHE_CAPACITY 100
+#define MEMORY_ADDRESS uint64_t
 
 struct Node {
     MEMORY_ADDRESS address;
-    int32_t value;     
     Node *prev;        
     Node *next;        
+    int32_t value;     
 };
 
 struct LRU_Queue{
@@ -89,9 +89,9 @@ public:
         --queue.capacity;
     }
 
-    int32_t find(MEMORY_ADDRESS address){
+    std::optional<int32_t> find(MEMORY_ADDRESS address){
         auto position = hashmap.find(address);
-        if (position == hashmap.end()) return NULL;
+        if (position == hashmap.end()) return std::nullopt;
 
         // handle a cache hit
         Node *node = position->second;
@@ -102,7 +102,7 @@ public:
         if (prev) prev->next = next;
         if (next) next->prev = prev;
 
-        node->prev == nullptr;
+        node->prev = nullptr;
         node->next = queue.head;
         queue.head = node;
 
@@ -119,7 +119,7 @@ public:
         {
             delete queue.head;
             queue.head = nullptr;
-            queue.tail == nullptr;
+            queue.tail = nullptr;
         }
         else if (address == queue.head->address)
         {
@@ -149,3 +149,6 @@ public:
     }
 };
 
+int main(){
+    
+}
