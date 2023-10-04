@@ -1,8 +1,8 @@
 /**
  * Farham Ahmad
- * Data Structure: Bit Queue maintained by a 64 bit integer.
+ * Data Structure: Bit Queue maintained by an unsigned 64 bit integer.
  * 
- * Notes: least significant bit is the most recent bit added
+ * Notes: least significant bit is the most recent bit added.
 */
 
 #include <iostream>
